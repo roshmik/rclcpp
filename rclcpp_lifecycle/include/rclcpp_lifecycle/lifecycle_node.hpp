@@ -94,6 +94,8 @@ public:
    * \param[in] use_global_arguments False to prevent node using arguments passed to the process.
    * \param[in] use_intra_process_comms True to use the optimized intra-process communication
    * pipeline to pass messages between nodes in the same process using shared memory.
+   * \param[in] start_parameter_services False to disable creating service servers for parameters.
+   * \param[in] allow_undeclared_parameters True to allow any parameter name to be set on the node.
    */
   RCLCPP_LIFECYCLE_PUBLIC
   LifecycleNode(
@@ -104,7 +106,8 @@ public:
     const std::vector<rclcpp::Parameter> & initial_parameters,
     bool use_global_arguments = true,
     bool use_intra_process_comms = false,
-    bool start_parameter_services = true);
+    bool start_parameter_services = true,
+    bool allow_undeclared_parameters = false);
 
   RCLCPP_LIFECYCLE_PUBLIC
   virtual ~LifecycleNode();

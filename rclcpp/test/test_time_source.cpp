@@ -343,6 +343,23 @@ TEST_F(TestTimeSource, parameter_activation) {
   // but it doesn't mean the on_parameter_event subscription in TimeSource has been called.
   // Spin some to handle that subscription.
   rclcpp::spin_some(node);
+  rclcpp::spin_some(node);
+  rclcpp::spin_some(node);
+  rclcpp::spin_some(node);
+  rclcpp::spin_some(node);
+  rclcpp::spin_some(node);
+  rclcpp::spin_some(node);
+  rclcpp::spin_some(node);
+  rclcpp::spin_some(node);
+  rclcpp::spin_some(node);
+  rclcpp::spin_some(node);
+  rclcpp::spin_some(node);
+  rclcpp::spin_some(node);
+  rclcpp::spin_some(node);
+  rclcpp::spin_some(node);
+  rclcpp::spin_some(node);
+  rclcpp::spin_some(node);
+  rclcpp::spin_some(node);
   EXPECT_TRUE(ros_clock->ros_time_is_active());
 
   set_parameters_results = parameters_client->set_parameters({

@@ -90,6 +90,8 @@ public:
    * \param[in] use_global_arguments False to prevent node using arguments passed to the process.
    * \param[in] use_intra_process_comms True to use the optimized intra-process communication
    * pipeline to pass messages between nodes in the same process using shared memory.
+   * \param[in] start_parameter_services False to disable creating service servers for parameters.
+   * \param[in] allow_undeclared_parameters True to allow any parameter name to be set on the node.
    */
   RCLCPP_PUBLIC
   Node(
@@ -100,7 +102,8 @@ public:
     const std::vector<Parameter> & initial_parameters,
     bool use_global_arguments = true,
     bool use_intra_process_comms = false,
-    bool start_parameter_services = true);
+    bool start_parameter_services = true,
+    bool allow_undeclared_parameters = false);
 
   RCLCPP_PUBLIC
   virtual ~Node();
@@ -255,6 +258,24 @@ public:
     CallbackT && callback,
     const rmw_qos_profile_t & qos_profile = rmw_qos_profile_services_default,
     rclcpp::callback_group::CallbackGroup::SharedPtr group = nullptr);
+
+  /// Declare and initialize a parameter.
+  /* This method is used to declare that a parameter exists on this node.
+   * If a run-time user has provided an an initial value then it will be set in this method,
+   * otherwise the default_value will be set.
+   * \param[in] name the name of the parameter
+   * \param[in] default_value An initial value to be used if a run-time user did not override it.
+   * \param[in] read_only if True then this parameter may not be changed after initialization.
+   * \throws std::runtime_error if parameter has already been declared.
+   * \throws std::runtime_error if a parameter name is invalid.
+   * \throws rclcpp::exceptions::InvalidParameterValueException if initial value fails to be set.
+   */
+  RCLCPP_PUBLIC
+  void
+  create_parameter(
+    const std::string & name,
+    const rclcpp::ParameterValue & default_value = rclcpp::ParameterValue(),
+    bool read_only = false);
 
   RCLCPP_PUBLIC
   std::vector<rcl_interfaces::msg::SetParametersResult>

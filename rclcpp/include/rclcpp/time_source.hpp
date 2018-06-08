@@ -50,7 +50,8 @@ public:
     const rclcpp::node_interfaces::NodeBaseInterface::SharedPtr node_base_interface,
     const rclcpp::node_interfaces::NodeTopicsInterface::SharedPtr node_topics_interface,
     const rclcpp::node_interfaces::NodeGraphInterface::SharedPtr node_graph_interface,
-    const rclcpp::node_interfaces::NodeServicesInterface::SharedPtr node_services_interface);
+    const rclcpp::node_interfaces::NodeServicesInterface::SharedPtr node_services_interface,
+    const rclcpp::node_interfaces::NodeParametersInterface::SharedPtr node_parameters_interface);
 
   RCLCPP_PUBLIC
   void detachNode();
@@ -74,6 +75,7 @@ private:
   rclcpp::node_interfaces::NodeTopicsInterface::SharedPtr node_topics_;
   rclcpp::node_interfaces::NodeGraphInterface::SharedPtr node_graph_;
   rclcpp::node_interfaces::NodeServicesInterface::SharedPtr node_services_;
+  rclcpp::node_interfaces::NodeParametersInterface::SharedPtr node_parameters_;
 
   // The subscription for the clock callback
   using MessageT = rosgraph_msgs::msg::Clock;

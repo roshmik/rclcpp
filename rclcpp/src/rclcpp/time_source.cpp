@@ -50,22 +50,27 @@ void TimeSource::attachNode(rclcpp::Node::SharedPtr node)
     node->get_node_base_interface(),
     node->get_node_topics_interface(),
     node->get_node_graph_interface(),
-    node->get_node_services_interface());
+    node->get_node_services_interface(),
+    node->get_node_parameters_interface());
 }
 
 void TimeSource::attachNode(
   const rclcpp::node_interfaces::NodeBaseInterface::SharedPtr node_base_interface,
   const rclcpp::node_interfaces::NodeTopicsInterface::SharedPtr node_topics_interface,
   const rclcpp::node_interfaces::NodeGraphInterface::SharedPtr node_graph_interface,
-  const rclcpp::node_interfaces::NodeServicesInterface::SharedPtr node_services_interface)
+  const rclcpp::node_interfaces::NodeServicesInterface::SharedPtr node_services_interface,
+  const rclcpp::node_interfaces::NodeParametersInterface::SharedPtr node_parameters_interface)
 {
   node_base_ = node_base_interface;
   node_topics_ = node_topics_interface;
   node_graph_ = node_graph_interface;
   node_services_ = node_services_interface;
+  node_parameters_ = node_parameters_interface;
   // TODO(tfoote): Update QOS
 
   const std::string & topic_name = "/clock";
+
+  node_parameters_->create_parameter("use_sim_time", rclcpp::ParameterValue(false));
 
   rclcpp::callback_group::CallbackGroup::SharedPtr group;
   using rclcpp::message_memory_strategy::MessageMemoryStrategy;

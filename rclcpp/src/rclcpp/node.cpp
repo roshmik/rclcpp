@@ -58,7 +58,8 @@ Node::Node(
   const std::vector<rclcpp::Parameter> & initial_parameters,
   bool use_global_arguments,
   bool use_intra_process_comms,
-  bool start_parameter_services)
+  bool start_parameter_services,
+  bool allow_undeclared_parameters)
 : node_base_(new rclcpp::node_interfaces::NodeBase(
       node_name, namespace_, context, arguments, use_global_arguments)),
   node_graph_(new rclcpp::node_interfaces::NodeGraph(node_base_.get())),
@@ -72,13 +73,15 @@ Node::Node(
       node_services_,
       initial_parameters,
       use_intra_process_comms,
-      start_parameter_services
+      start_parameter_services,
+      allow_undeclared_parameters
     )),
   node_clock_(new rclcpp::node_interfaces::NodeClock(
       node_base_,
       node_topics_,
       node_graph_,
-      node_services_
+      node_services_,
+      node_parameters_
     )),
   use_intra_process_comms_(use_intra_process_comms)
 {
@@ -116,6 +119,15 @@ bool
 Node::group_in_node(rclcpp::callback_group::CallbackGroup::SharedPtr group)
 {
   return node_base_->callback_group_in_node(group);
+}
+
+void
+Node::create_parameter(
+  const std::string & name,
+  const rclcpp::ParameterValue & default_value,
+  bool read_only)
+{
+  return this->node_parameters_->create_parameter(name, default_value, read_only);
 }
 
 std::vector<rcl_interfaces::msg::SetParametersResult>
